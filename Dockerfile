@@ -7,12 +7,13 @@ ARG RSS2FULL_VERSION="0.1.2"
 
 ENV CGO_ENABLED 0
 
-RUN curl -fsSLO https://github.com/feedocean/rss2full/archive/v${RSS2FULL_VERSION}.tar.gz && \
+RUN curl -fsSLO https://github.com/lovellfelix/rss2full/archive/v${RSS2FULL_VERSION}.tar.gz && \
       tar zvxf v${RSS2FULL_VERSION}.tar.gz -C /go/src/ && \
       mv /go/src/rss2full-${RSS2FULL_VERSION} /go/src/rss2full
 
 # Compile rss2full
-RUN cd /go/src/rss2full && go build
+RUN cd /go/src/rss2full && go mod init && go mod tidy && go mod vendor && go build
+
 
 FROM alpine
 MAINTAINER feedocean.com
